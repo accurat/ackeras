@@ -11,7 +11,7 @@ from pandas.api.types import CategoricalDtype
 from autokeras.preprocessor import OneHotEncoder
 
 
-class AccuratPreprocess():
+class AccuratPreprocess():  # TODO add outlier detection
 
     def __init__(self, df=None, path=None):
         self.path = path  # TODO-fix receiving data

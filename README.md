@@ -69,3 +69,10 @@ acp = AccuratPreprocess(path=path)
 data_processed = acp.fit_transform()
 
 ```
+
+#### Other interesting libraries to add in the pipeline
+
+- [Optimus](https://github.com/ironmussa/Optimus), data cleaning
+- [Awesome Dash](https://github.com/Acrotrend/awesome-dash), python + react.js + flask
+- [Bokeh](https://github.com/bokeh/bokeh), interactive web-plotting
+
