@@ -1,4 +1,4 @@
-![ACKERAS](/images/ackeras.png)
+![ACKERAS](/frontend/ackeras.png)
 ===========
 
 ## Installation

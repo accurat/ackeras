@@ -1,7 +1,7 @@
-from data_cleaning import AccuratPreprocess
-from dim_red import RedDimensionality
-from clustering import Clustering
-from regression import Regression
+from auto_ml.data_cleaning import AccuratPreprocess
+from auto_ml.dim_red import RedDimensionality
+from auto_ml.clustering import Clustering
+from auto_ml.regression import Regression
 
 import time
 import pandas as pd
@@ -86,16 +86,17 @@ class Pipeline():
             return returning
 
 
-test_params = {'path': '/Users/andreatitton/accurat_places_analytics/ackeras/data/random_data_places.csv',
-               'categorical_feautures': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
-               'timecolumn': 'Ship Date',
-               'drop_rest': True,
-               'extreme_drop': 'Row ID',
-               'supervised': True,
-               'reg_class': (None, 'Country, France')
-               }
+# ----------TEST RUN-----------------------
+# test_params = {'path': '/Users/andreatitton/accurat_places_analytics/ackeras/data/random_data_places.csv',
+#                'categorical_feautures': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
+#                'timecolumn': 'Ship Date',
+#                'drop_rest': True,
+#                'extreme_drop': 'Row ID',
+#                'supervised': True,
+#                'reg_class': (None, 'Country, France')
+#                }
 
-plp = Pipeline(**test_params)
-processed_data, acp = plp.preprocess()
-processed_data.to_csv('processed_data.csv')
-labelled_data = plp.regression()
+# plp = Pipeline(**test_params)
+# processed_data, acp = plp.preprocess()
+# processed_data.to_csv('processed_data.csv')
+# labelled_data = plp.regression()

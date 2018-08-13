@@ -6,7 +6,7 @@ sns.set(context='paper', style='white')
 
 import umap
 from sklearn.decomposition import PCA
-from data_cleaning import AccuratPreprocess
+from auto_ml.data_cleaning import AccuratPreprocess
 from sklearn.preprocessing import Normalizer
 
 

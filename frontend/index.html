@@ -1,0 +1,47 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>ACKeras</title>
+    <meta name="description" content="ACKeras">
+    <meta name="author" content="Andrea">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.1/css/tachyons.css">
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+</head>
+
+<body style="margin-left: 40px">
+    <img src="/static/ackeras.png" alt="logo">
+    <div class="flex">
+        <input id="file_input" type="file" name="data_file" />
+        <input id="submit" type="submit" />
+    </div>
+    <div id="container" style="margin-top: 20px">
+        <div style="margin-bottom: 10px">
+            <td>
+                <input id='supervised' type='checkbox' name='supervised' value='True'> Supervised </input>
+                <input id='drop_rest' type='checkbox' name='drop_rest' value='True'> Drop_rest </input>
+            </td>
+        </div>
+        <style>
+            table,
+            th,
+            td {
+                border: 0.5px solid black;
+            }
+        </style>
+        <table id='table'>
+            <tr>
+                <th class="ph3">Column Names</th>
+                <th class="ph3">Categorical</th>
+                <th class="ph3">Drop</th>
+                <th class="ph3">Dependent</th>
+                <th class="ph3">Date</th>
+            </tr>
+
+        </table>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
