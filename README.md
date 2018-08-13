@@ -17,7 +17,7 @@ The library is not pip-installable obviously but it should run with
 The usage should be tailored with the pipeline.py file as follows:
 ``` python 
 from pipeline import Pipeline
-test_params = {'path': '/Users/andreatitton/accurat_places_analytics/ackeras/data/random_data_places.csv',
+test_params = {'path': './your_file.csv',
                'categorical_feautures': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
                'timecolumn': 'Ship Date',
                'drop_rest': True,
