@@ -105,3 +105,4 @@ venv.bak/
 
 *.csv
 error_testing.ipynb
+.vscode
