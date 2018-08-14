@@ -39,18 +39,20 @@ class Pipeline():
                  supervised=False):
 
         self.input_data = input_data
-        self.categorical_feautures = categorical_feautures
-        self.timecolumn = timecolumn
-        self.drop_rest = drop_rest
+        self.categorical_feautures = categorical_feautures if len(
+            categorical_feautures) != 0 else None
+        y = y[0] if len(y) != 0 else None
+        self.timecolumn = timecolumn[0] if len(timecolumn) != 0 else None
         self.extreme_drop = extreme_drop
-        self.supervised = False
         self.reg_class = (None, y)
+        self.drop_rest = drop_rest
+        self.supervised = supervised
         self.acp = None
+        self.outputs = None
+        self.status = 'Working...'
 
     def preprocess(self):
-        print('Preprocessing')
-        assert isinstance(self.categorical_feautures, list)
-        assert isinstance(self.timecolumn, str)
+        print(f'Preprocessing {type(self.categorical_feautures)}')
 
         self.acp = AccuratPreprocess(self.input_data)
         self.data_processed = self.acp.fit_transform(categorical_feautures=self.categorical_feautures, timecolumn=self.timecolumn,
@@ -93,15 +95,29 @@ class Pipeline():
             return returning
 
     def process(self):
-        data_processed, _ = self.preprocess()
-        cluster_data = self.clustering()
-        returning = self.regression()
+        try:
+            data_processed, _ = self.preprocess()
+            cluster_data = self.clustering()
+            coefficients = self.regression()
+            self.status = 'Done'
 
-        outputs = {
-            'acp': data_processed,
-            'cluster_data': cluster_data,
-            'regression': returning
-        }
+            #TODO - all
+            data_processed = data_processed.reset_index().to_dict() if isinstance(
+                data_processed, pd.DataFrame) else pd.DataFrame(data_processed).to_dict()
+            cluster_data = cluster_data[0].reset_index().to_dict() if isinstance(
+                cluster_data[0], pd.DataFrame) else pd.DataFrame(cluster_data[0]).to_dict()
+            coefficients = coefficients.reset_index().to_dict() if isinstance(
+                coefficients, pd.DataFrame) else pd.DataFrame(coefficients).to_dict()
+
+            outputs = {
+                'acp': data_processed,
+                'cluster_data': cluster_data,
+                'coefficients': coefficients,
+            }
+
+            self.outputs = outputs
+        except Exception as e:
+            self.status = f'Error happening, we are giving up {e}'
 
         return outputs
 

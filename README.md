@@ -42,7 +42,18 @@ The parameters of the Class are:
 
 ## Usage
 
-The idea is to put the app on a server soon, so the interaction becomes non-pythonista-exclusive. Stay tuned...
+You shold now be able to interact with the dataset through a simple server that is only running on my machine in the local network now. Fixing is happening anyhow so stay tuned. To test it yourself just try:
+
+```
+cd ackeras
+$ python server.py
+```
+
+and head over to your localhost:5000. Upload a CSV and you should see something like this:
+
+![test](/frontend/mock.png)
+
+Be sure to tick (at this stage) the "Drop_rest", because it ensures that the data you push in and is not understood will be excluded. Then go ahead and submit query and head over to the link provided and enjoy everything breaking down. Keep an eye on the console because we tried and log most errors.
 
 ## Usage with python
 

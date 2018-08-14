@@ -2,6 +2,7 @@ import sklearn
 import pandas as pd
 import numpy as np
 import random
+import pdb
 
 from datetime import datetime
 import time
@@ -81,18 +82,15 @@ class Clustering():
 
         return pred_label
 
-    def silouhette_analysis(self, cluster_data, pca=None, prototype=False):
+    def silouhette_analysis(self, cluster_data, pca=False, prototype=False):
         range_n_cluster = list(range(3, 30, 1))
-        if len(range_n_cluster) < 3:
-            raise ValueError('Too small dataset, give a pre_k value')
-
         sil_avg = []
         for n_cluster in range_n_cluster:
+            print(f'Trying cluster {n_cluster}')
             clusterer = KMeans(n_clusters=n_cluster,
                                random_state=self.seed)
             train, test = train_test_split(
                 cluster_data, test_size=0.2, random_state=self.seed)
-
             if pca:
                 pca_trans = PCA(n_components=0.9)
                 train_pca = pca_trans.fit_transform(train)
@@ -101,15 +99,15 @@ class Clustering():
                     pca_trans = PCA(n_components=2)
                     train_pca = pca_trans.fit_transform(train)
                     self.pca_trans = pca_trans
-
             train = train_pca if self.pca_trans is not None else train
             cluster_labels = clusterer.fit(train)
 
             test = self.pca_trans.transform(
                 test) if self.pca_trans is not None else test
             cluster_labels = clusterer.predict(test)
-
-            sil_avg.append(silhouette_score(test, cluster_labels))
+            score = silhouette_score(test, cluster_labels)
+            print(f'Got score: {score}')
+            sil_avg.append(score)
 
         index = np.argmax(sil_avg)
         opt_k = range_n_cluster[index]

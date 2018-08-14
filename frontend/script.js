@@ -29,9 +29,9 @@ async function handleSubmit() {
     const payload = await results.json()
     const id = payload.id
     const container = document.getElementById('result_link')
-    const link = `localhost:5000/result/${id}`
+    const link = `/result/${id}`
     container.insertAdjacentHTML('beforeend',
-        `<a href=${link}> Go to ${link}! </a>`
+        `<a href=${link} target="_blank"> Go to ${link}! </a>`
     )
 }
 
