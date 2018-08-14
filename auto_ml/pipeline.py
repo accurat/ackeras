@@ -30,14 +30,21 @@ class Pipeline():
 
     '''
 
-    def __init__(self, path, supervised=False, categorical_feautures=None, timecolumn=None, drop_rest=True, extreme_drop=None, reg_class=None):
-        self.path = path
+    def __init__(self, input_data,
+                 categorical_feautures=None,
+                 timecolumn=None,
+                 extreme_drop=None,
+                 y=None,
+                 drop_rest=True,
+                 supervised=False):
+
+        self.input_data = input_data
         self.categorical_feautures = categorical_feautures
         self.timecolumn = timecolumn
         self.drop_rest = drop_rest
         self.extreme_drop = extreme_drop
         self.supervised = False
-        self.reg_class = reg_class
+        self.reg_class = (None, y)
         self.acp = None
 
     def preprocess(self):
@@ -45,7 +52,7 @@ class Pipeline():
         assert isinstance(self.categorical_feautures, list)
         assert isinstance(self.timecolumn, str)
 
-        self.acp = AccuratPreprocess(path=self.path)
+        self.acp = AccuratPreprocess(self.input_data)
         self.data_processed = self.acp.fit_transform(categorical_feautures=self.categorical_feautures, timecolumn=self.timecolumn,
                                                      save=False, drop_rest=self.drop_rest, outputplot=False, extreme_drop=self.extreme_drop)
 
@@ -85,9 +92,22 @@ class Pipeline():
             self.opt_coeff_ = returning
             return returning
 
+    def process(self):
+        data_processed, _ = self.preprocess()
+        cluster_data = self.clustering()
+        returning = self.regression()
+
+        outputs = {
+            'acp': data_processed,
+            'cluster_data': cluster_data,
+            'regression': returning
+        }
+
+        return outputs
+
 
 # ----------TEST RUN-----------------------
-# test_params = {'path': '/Users/andreatitton/accurat_places_analytics/ackeras/data/random_data_places.csv',
+# test_params = {'path': 'random_path.csv',
 #                'categorical_feautures': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
 #                'timecolumn': 'Ship Date',
 #                'drop_rest': True,

@@ -13,9 +13,9 @@ const checkBox = (name) => {
 
 async function handleSubmit() {
     userChoices = {
-        'categorical': checkBox('categorical'),
-        'datetime': checkBox('datetime'),
-        'drop': checkBox('drop'),
+        'categorical_feautures': checkBox('categorical'),
+        'timecolumn': checkBox('datetime'),
+        'extreme_drop': checkBox('drop'),
         'y': checkBox('y'),
         'drop_rest': document.getElementById('drop_rest').checked,
         'supervised': document.getElementById('supervised').checked,
@@ -26,12 +26,17 @@ async function handleSubmit() {
         '/config',
         { method: 'POST', body: JSON.stringify(putObject) }
     )
-    console.log(results)
+    const payload = await results.json()
+    const id = payload.id
+    const container = document.getElementById('result_link')
+    const link = `localhost:5000/result/${id}`
+    container.insertAdjacentHTML('beforeend',
+        `<a href=${link}> Go to ${link}! </a>`
+    )
 }
 
 function handleFileUpload(evt) {
     const file = evt.target.files[0]
-    const container = document.getElementById('container')
     if (!file) return
     const reader = new FileReader()
     reader.onload = e => {

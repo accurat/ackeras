@@ -15,6 +15,15 @@ class Regression():
         assert isinstance(y, str)
         assert problem in ['classification', 'regression', None]
 
+        target_col = [col for col in data.columns if y in col]
+
+        if len(target_col) == 1:
+            y = target_col[0]
+        elif len(target_col) == 0:
+            raise AssertionError('No column found')
+        else:
+            raise AssertionError('Multiple columns found')
+
         self.data = data
         self.X_series = data.drop(y, axis=1)
         self.y_series = data[y]

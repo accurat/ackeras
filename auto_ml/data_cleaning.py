@@ -13,9 +13,9 @@ from autokeras.preprocessor import OneHotEncoder
 
 class AccuratPreprocess():  # TODO add outlier detection
 
-    def __init__(self, df=None, path=None):
-        self.path = path  # TODO-fix receiving data
-        self.raw_data = None if not path else None
+    def __init__(self, input_data=None, path=None):  # TODO-fix receiving data
+        self.path = path
+        self.raw_data = input_data
         self.categorical_feautures = []
         self.label_encoders = {}
         self.approach = None
@@ -23,6 +23,9 @@ class AccuratPreprocess():  # TODO add outlier detection
         self.embedded_columns = None
 
     def get_data(self, skip_bad=False, sep=',', encoding='utf_8'):
+        '''
+        Only to use in case the input is not a DataFrame but a path
+        '''
 
         assert isinstance(self.path, str)
         detect_format = self.path.split('.')[-1]
@@ -175,7 +178,7 @@ class AccuratPreprocess():  # TODO add outlier detection
 
     def fit_transform(self, categorical_feautures=None, timecolumn=None, save=False, drop_rest=False, outputplot=False, extreme_drop=None):
         '''
-        One should just run this function, after calling AccuratPreprocess(path), with:
+        One should just run this function, after calling AccuratPreprocess(data), with:
         categorical_feautures: the names of the categorical feautures
         timecolumn: the name of the timestamp column
         save: ...
@@ -186,6 +189,7 @@ class AccuratPreprocess():  # TODO add outlier detection
 
         if self.path:
             self.get_data()
+
         self.deal_na()
         if categorical_feautures:
             self.data_encoding(categorical_feautures)
