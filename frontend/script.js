@@ -42,7 +42,7 @@ function handleFileUpload(evt) {
     reader.onload = e => {
         fileContent = e.target.result
         const [headers, ...values] = fileContent.split('\n')
-        const columns = headers.split(',').map(_.kebabCase)
+        const columns = headers.split(',').map(_.snakeCase)
         columns.forEach(column => {
             const column_table = document.getElementById('table')
             column_table.insertAdjacentHTML('beforeend',

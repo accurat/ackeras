@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pdb
 
 from sklearn.preprocessing import LabelEncoder
 from pandas.io.common import CParserError
@@ -55,7 +56,8 @@ class AccuratPreprocess():  # TODO add outlier detection
     def deal_na(self, deal='normal', thresh=.5, deal_cat=True):
         assert isinstance(self.raw_data, pd.DataFrame)
         raw_data = self.raw_data
-        raw_data.dropna(axis=1, thresh=thresh)
+
+        raw_data = raw_data.dropna(axis=1, thresh=thresh)
 
         def normal(df):
             nan_cols = df.loc[:, df.isna().any()].columns
@@ -107,7 +109,7 @@ class AccuratPreprocess():  # TODO add outlier detection
         assert deal in func.keys()
 
         filled_data = func[deal](raw_data)
-        self.data = filled_data
+        self.raw_data = filled_data
         print('Got rid of the NaN')
         return filled_data
 
@@ -156,6 +158,7 @@ class AccuratPreprocess():  # TODO add outlier detection
             CategoricalDtype())
         self.embedded_columns = cat_data.columns
         self.raw_data = raw_data
+
         return raw_data
 
     def datetime_index(self, timecolumn, set_index=False):
@@ -191,6 +194,7 @@ class AccuratPreprocess():  # TODO add outlier detection
             self.get_data()
 
         self.deal_na()
+
         if categorical_feautures:
             self.data_encoding(categorical_feautures)
         if timecolumn:

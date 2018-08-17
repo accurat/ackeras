@@ -5,6 +5,7 @@ from auto_ml.regression import Regression
 
 import time
 import pandas as pd
+import pdb
 
 
 def time_decorater(f):
@@ -38,6 +39,12 @@ class Pipeline():
                  drop_rest=True,
                  supervised=False):
 
+        categorical_feautures = [c.lower().replace(
+            '-', '_').replace(' ', '_') for c in categorical_feautures]
+
+        input_data.columns = pd.Series(input_data.columns).apply(
+            lambda x: x.replace('-', '_').replace(' ', '_'))
+
         self.input_data = input_data
         self.categorical_feautures = categorical_feautures if len(
             categorical_feautures) != 0 else None
@@ -52,7 +59,7 @@ class Pipeline():
         self.status = 'Working...'
 
     def preprocess(self):
-        print(f'Preprocessing {type(self.categorical_feautures)}')
+        print(f'Preprocessing ...')
 
         self.acp = AccuratPreprocess(self.input_data)
         self.data_processed = self.acp.fit_transform(categorical_feautures=self.categorical_feautures, timecolumn=self.timecolumn,
@@ -102,12 +109,12 @@ class Pipeline():
             self.status = 'Done'
 
             #TODO - all
-            data_processed = data_processed.reset_index().to_dict() if isinstance(
-                data_processed, pd.DataFrame) else pd.DataFrame(data_processed).to_dict()
-            cluster_data = cluster_data[0].reset_index().to_dict() if isinstance(
-                cluster_data[0], pd.DataFrame) else pd.DataFrame(cluster_data[0]).to_dict()
-            coefficients = coefficients.reset_index().to_dict() if isinstance(
-                coefficients, pd.DataFrame) else pd.DataFrame(coefficients).to_dict()
+            data_processed = data_processed.reset_index().T.to_dict() if isinstance(
+                data_processed, pd.DataFrame) else pd.DataFrame(data_processed).T.to_dict()
+            cluster_data = cluster_data[0].reset_index().T.to_dict() if isinstance(
+                cluster_data[0], pd.DataFrame) else pd.DataFrame(cluster_data[0]).T.to_dict()
+            coefficients = coefficients.reset_index().T.to_dict() if isinstance(
+                coefficients, pd.DataFrame) else pd.DataFrame(coefficients).T.to_dict()
 
             outputs = {
                 'acp': data_processed,
@@ -120,19 +127,3 @@ class Pipeline():
             self.status = f'Error happening, we are giving up {e}'
 
         return outputs
-
-
-# ----------TEST RUN-----------------------
-# test_params = {'path': 'random_path.csv',
-#                'categorical_feautures': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
-#                'timecolumn': 'Ship Date',
-#                'drop_rest': True,
-#                'extreme_drop': 'Row ID',
-#                'supervised': True,
-#                'reg_class': (None, 'Country, France')
-#                }
-
-# plp = Pipeline(**test_params)
-# processed_data, acp = plp.preprocess()
-# processed_data.to_csv('processed_data.csv')
-# labelled_data = plp.regression()

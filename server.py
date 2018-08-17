@@ -8,10 +8,11 @@ import time
 from multiprocessing.pool import ThreadPool
 import io
 from flask_jsonpify import jsonpify
+import zipfile
 
 from datetime import datetime
 import uuid
-from flask import Flask, make_response, request, render_template, make_response, send_from_directory, jsonify
+from flask import Flask, make_response, request, render_template, make_response, send_from_directory, jsonify, send_file
 from auto_ml import Pipeline
 from bson.json_util import dumps
 
@@ -77,15 +78,24 @@ class Server():
             except IndexError:
                 job = None
                 print('Not found')
-                return 'ciao'
+                return 'This job is closed'
 
             output = job.status()
             output = jsonpify(output)
-            return output
-            # response = make_response(output)
-            # response.headers['Content-Disposition'] = 'attachment; filename=result.json'
-            # response.headers['Content-Type'] = "text/json"
-            # return response
+            if len(output == 1):
+                return dumps(output)
+
+            else:
+                acp = send_file(output['aco'])
+                cluster_data = send_file(output['cluster_data'])
+                coefficients = send_file(output['coefficients'])
+
+                file_list = [acp, cluster_data, coefficients]
+
+                with zipfile.ZipFile(f'zipped_data_{id}', 'w') as zf:
+                    zf.write(file_list)
+
+                return send_file('zipped_data.zip', attachment_filename=f'zipped_data_{id}', as_attachment=True)
 
         self.app.run(port=5000, debug=True, host="0.0.0.0")
 
