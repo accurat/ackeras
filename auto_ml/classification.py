@@ -110,7 +110,7 @@ class Classification():
             return joint_prob
 
         else:
-            rint(
+            print(
                 'Careful, no out of sample data, you can still get the classifiers with .opt_svm and .opt_frst')
             return None
 
