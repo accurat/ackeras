@@ -8,26 +8,30 @@ import pandas as pd
 import pdb
 
 
-def time_decorater(f):
-    def wrapper():
-        t1 = time.time()
-        f()
-        t2 = time.time()
-        s = f"Time it took to run the function: {str((t2 - t1))}\n"
-        print(s)
-    return wrapper
+def format_list(list_like):
+
+    series_like = pd.Series(list_like)
+
+    series_like = series_like.apply(
+        lambda x: x.lower().replace('-', '_').replace(' ', '_'))
+
+    return list(series_like)
+
+
+def format_string(string):
+    return string.lower().replace('-', '_').replace(' ', '_')
 
 
 class Pipeline():
     '''
-    The parameters of the class are:
-    - path: the path to the file
-    - supervised: whether the issue is supervised or unsupervised (labelled data or not)
-    - reg_class: a tuple consisting of the problem type (classification or regression or None, which equals to autodetect) and the dependent (target) column name 
-    - categorical_feautures: a list of the categorical column names (if present)
-    - timecolumn: the name of the time data (if present)
-    - drop_rest: whether you want to drop all the unprocessed columns (suggested for analysis)
-    - extreme_drop: if some column has to be dropped at the end of the preprocess 
+    The parameters of the class are: #TODO Update
+    - input_data: a pd.DataFrame with the data input
+    - categorical_feautures: a list of categorical feautures
+    - timecolumn: the datetime columns name
+    - extreme_drop: drop this column in a worst case scenario fashion, usually it can be None
+    - y: the dependent variable in supervised problems
+    - drop_rest: keep it True
+    - supervised: whether the problem is supervised or unsupervised
 
     '''
 
@@ -39,17 +43,19 @@ class Pipeline():
                  drop_rest=True,
                  supervised=False):
 
-        categorical_feautures = [c.lower().replace(
-            '-', '_').replace(' ', '_') for c in categorical_feautures]
+        categorical_feautures = format_list(categorical_feautures)
 
-        input_data.columns = pd.Series(input_data.columns).apply(
-            lambda x: x.replace('-', '_').replace(' ', '_'))
+        input_data.columns = format_list(input_data.columns)
 
         self.input_data = input_data
         self.categorical_feautures = categorical_feautures if len(
             categorical_feautures) != 0 else None
-        y = y[0] if len(y) != 0 else None
-        self.timecolumn = timecolumn[0] if len(timecolumn) != 0 else None
+
+        y = format_list(y[0]) if isinstance(y, list) else format_string(y)
+
+        self.timecolumn = format_list(timecolumn[0]) if isinstance(
+            timecolumn, list) else format_string(timecolumn)
+
         self.extreme_drop = extreme_drop
         self.reg_class = (None, y)
         self.drop_rest = drop_rest
@@ -105,6 +111,7 @@ class Pipeline():
         try:
             data_processed, _ = self.preprocess()
             cluster_data = self.clustering()
+            #coefficients = self.regression()
             self.status = 'Done'
 
             #TODO - all
@@ -112,14 +119,18 @@ class Pipeline():
                 data_processed, pd.DataFrame) else pd.DataFrame(data_processed).T.to_dict()
             cluster_data = cluster_data[0].reset_index().T.to_dict() if isinstance(
                 cluster_data[0], pd.DataFrame) else pd.DataFrame(cluster_data[0]).T.to_dict()
+            # coefficients = coefficients.reset_index().T.to_dict() if isinstance(
+            #     coefficients, pd.DataFrame) else pd.DataFrame(coefficients).T.to_dict()
 
             outputs = {
                 'acp': data_processed,
                 'cluster_data': cluster_data,
+                # 'coefficients': coefficients,
             }
-
             self.outputs = outputs
+            return self.outputs
+
         except Exception as e:
             self.status = f'Error happening, we are giving up {e}'
 
-        return outputs
+            return None

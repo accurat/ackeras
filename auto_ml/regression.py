@@ -49,7 +49,8 @@ class Regression():
         self.parameters = regres.coef_
 
         self.fitted = regres.predict(feautures)
-        print(f'Optimum score {regres.scoring}')
+        verbosity = f'Optimum score {regres.scoring}' if regres.scoring is not None else 'Did not find a reliable solution to the problem'
+        print(verbosity)
 
         return regres.coef_
 

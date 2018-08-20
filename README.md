@@ -31,14 +31,15 @@ The implementations are:
 
 ## Parameters
 
-The parameters of the Class are:
+The parameters of the class are:
 
-- categorical_feautures: a list of categorical feautures (duh);
-- timecolumn: a timestamp for time-series data, can be None if not present;
-- drop_rest: whether to drop the variables that were not included (automatically or manually) in the cleaning;
-- supervised: whether the issue at hand is supervised (e.g. classification) or unsupervised (e.g. clustering);
-- extreme_drop: if the auto-cleaning makes an error and doesn't drop a variable that is not needed (e.g. the ID of the row), you can use this to manually do a drop;
-- reg_class: a tuple where the first value can be 'regression', 'classification' or None (if None the problem is automatically detected) and the "target" variable (dipendent);
+- input_data: a pd.DataFrame with the data input
+- categorical_feautures: a list of categorical feautures
+- timecolumn: the datetime columns name
+- extreme_drop: drop this column in a worst case scenario fashion, usually it can be None
+- y: the dependent variable in supervised problems
+- drop_rest: keep it True
+- supervised: whether the problem is supervised or unsupervised
 
 ## Usage
 
@@ -83,7 +84,6 @@ data_processed = acp.fit_transform()
 
 #### Other interesting libraries to add in the pipeline
 
-- [Optimus](https://github.com/ironmussa/Optimus), data cleaning
 - [Awesome Dash](https://github.com/Acrotrend/awesome-dash), python + react.js + flask
 - [Bokeh](https://github.com/bokeh/bokeh), interactive web-plotting
 

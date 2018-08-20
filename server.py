@@ -96,16 +96,13 @@ class Server():
                 buff = io.BytesIO()
                 zip_archive = zipfile.ZipFile(buff, mode='w')
 
-                in_mem = []
-
-                for index, (k, values) in enumerate(output_data.items()):
+                for k, values in output_data.items():
                     file_buff = io.StringIO()
                     file_buff.write(dumps(values))
                     zip_archive.writestr(
                         f'{k}_{job_id}.json', file_buff.getvalue())
 
                 zip_archive.close()
-                pdb.set_trace()
                 buff.seek(0)
 
                 return send_file(buff, attachment_filename=f'zipped_data_{job_id}.zip', as_attachment=True)

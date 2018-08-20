@@ -104,5 +104,6 @@ venv.bak/
 .mypy_cache/
 
 *.csv
-error_testing.ipynb
+autokeras_imp.ipynb
 .vscode
+

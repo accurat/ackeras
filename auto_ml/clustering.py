@@ -31,22 +31,6 @@ class Clustering():
         self.pca = None
 
     def check_df(self):
-        # if isinstance(check_data, pd.DataFrame):
-        #     flag_non_number = []
-        #     for col in check_data.columns:
-        #         try:
-        #             assert np.issubdtype(check_data[col].dtype, np.number)
-        #         except AssertionError:
-        #             try:
-        #                 assert np.issubdtype(
-        #                     check_data[col].dtype, np.datetime64)
-        #                 flag_non_number.append(True)
-
-        #             except AssertionError:
-        #                 flag_non_number.append(False)
-        #                 print(f'{col} is not numerical, change that please!')
-        # else:
-        #     print('We expect a pandas DataFrame for the clustering to work')
 
         check_data = self.data
         normalize_data = check_data.select_dtypes(float)
