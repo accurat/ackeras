@@ -86,4 +86,5 @@ data_processed = acp.fit_transform()
 
 - [Awesome Dash](https://github.com/Acrotrend/awesome-dash), python + react.js + flask
 - [Bokeh](https://github.com/bokeh/bokeh), interactive web-plotting
+- [Dask](https://dask.pydata.org/en/latest/), multiprocessing with Pandas, Numpy and Sklearn
 
