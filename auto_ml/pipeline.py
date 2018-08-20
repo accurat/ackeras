@@ -105,7 +105,6 @@ class Pipeline():
         try:
             data_processed, _ = self.preprocess()
             cluster_data = self.clustering()
-            coefficients = self.regression()
             self.status = 'Done'
 
             #TODO - all
@@ -113,13 +112,10 @@ class Pipeline():
                 data_processed, pd.DataFrame) else pd.DataFrame(data_processed).T.to_dict()
             cluster_data = cluster_data[0].reset_index().T.to_dict() if isinstance(
                 cluster_data[0], pd.DataFrame) else pd.DataFrame(cluster_data[0]).T.to_dict()
-            coefficients = coefficients.reset_index().T.to_dict() if isinstance(
-                coefficients, pd.DataFrame) else pd.DataFrame(coefficients).T.to_dict()
 
             outputs = {
                 'acp': data_processed,
                 'cluster_data': cluster_data,
-                'coefficients': coefficients,
             }
 
             self.outputs = outputs

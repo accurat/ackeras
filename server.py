@@ -77,25 +77,38 @@ class Server():
                 job = [j for j in self.jobs if j.id == job_id][0]
             except IndexError:
                 job = None
-                print('Not found')
                 return 'This job is closed'
 
             output = job.status()
             output = jsonpify(output)
-            if len(output == 1):
-                return dumps(output)
+            try:
+                progress = json.loads(
+                    output.get_data().decode('utf-8'))['outputs']
+            except KeyError:
+                progress = None
+
+            if progress == 'Working...':
+                return dumps(progress)
 
             else:
-                acp = send_file(output['aco'])
-                cluster_data = send_file(output['cluster_data'])
-                coefficients = send_file(output['coefficients'])
+                output_data = json.loads(output.get_data().decode('utf-8'))
 
-                file_list = [acp, cluster_data, coefficients]
+                buff = io.BytesIO()
+                zip_archive = zipfile.ZipFile(buff, mode='w')
 
-                with zipfile.ZipFile(f'zipped_data_{id}', 'w') as zf:
-                    zf.write(file_list)
+                in_mem = []
 
-                return send_file('zipped_data.zip', attachment_filename=f'zipped_data_{id}', as_attachment=True)
+                for index, (k, values) in enumerate(output_data.items()):
+                    file_buff = io.StringIO()
+                    file_buff.write(dumps(values))
+                    zip_archive.writestr(
+                        f'{k}_{job_id}.json', file_buff.getvalue())
+
+                zip_archive.close()
+                pdb.set_trace()
+                buff.seek(0)
+
+                return send_file(buff, attachment_filename=f'zipped_data_{job_id}.zip', as_attachment=True)
 
         self.app.run(port=5000, debug=True, host="0.0.0.0")
 
