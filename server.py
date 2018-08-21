@@ -62,6 +62,7 @@ class Server():
         def get_data():
             get_data = request.data.decode()
             string_data, params = json.loads(get_data).values()
+            params['insample'] = int(params['insample'])
             data = pd.read_csv(io.StringIO(string_data))
             data.columns = pd.Series(data.columns).apply(
                 lambda x: x.lower().replace(' ', '-'))

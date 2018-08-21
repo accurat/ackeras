@@ -128,7 +128,7 @@ class AccuratPreprocess():  # TODO add outlier detection
 
         for col in cat_columns:
             col_data = cat_data[col]
-            if len(list(col_data.unique())) > 4:
+            if len(list(col_data.unique())) > 2:
                 print(f'Using label encoder for {col}')
                 lb = LabelEncoder()
                 label_data = lb.fit_transform(list(col_data))
@@ -162,7 +162,9 @@ class AccuratPreprocess():  # TODO add outlier detection
         return raw_data
 
     def datetime_index(self, timecolumn, set_index=False):
-        assert isinstance(timecolumn, str)
+        if isinstance(timecolumn, list):
+            timecolumn = str(timecolumn[0])
+
         raw_data = self.raw_data
         sample = raw_data[timecolumn].sample(1).values[0]
         if (isinstance(sample, int) or isinstance(sample, float)):
@@ -194,21 +196,18 @@ class AccuratPreprocess():  # TODO add outlier detection
             self.get_data()
 
         self.deal_na()
-
         if categorical_feautures:
             self.data_encoding(categorical_feautures)
         if timecolumn:
             self.datetime_index(timecolumn, set_index=True)
-
         self.data = self.raw_data
         if drop_rest:
             self.data = self.data.drop(
                 self.data.select_dtypes('object').columns, axis=1)
-
-        if extreme_drop:
+        if len(extreme_drop) != 0:
             self.data = self.data.drop(extreme_drop, axis=1)
-
         now = datetime.now()
+
         filename = f'data_at_{now.hour}_{now.day}_{now.month}.csv'
         if save:
             self.data.to_csv(filename)

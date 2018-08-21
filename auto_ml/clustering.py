@@ -67,7 +67,7 @@ class Clustering():
         return pred_label
 
     def silouhette_analysis(self, cluster_data, pca=False, prototype=False):
-        range_n_cluster = list(range(3, 20, 1))
+        range_n_cluster = list(range(3, 4, 1))
         sil_avg = []
         for n_cluster in range_n_cluster:
             print(f'Trying cluster {n_cluster}')

@@ -19,6 +19,7 @@ async function handleSubmit() {
         'y': checkBox('y'),
         'drop_rest': document.getElementById('drop_rest').checked,
         'supervised': document.getElementById('supervised').checked,
+        'insample': document.getElementById('insample').value,
     }
 
     const putObject = { 'data': fileContent, 'param': userChoices }

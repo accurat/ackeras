@@ -9,6 +9,8 @@ from sklearn.decomposition import PCA
 from auto_ml.data_cleaning import AccuratPreprocess
 from sklearn.preprocessing import Normalizer
 
+import pdb
+
 
 class RedDimensionality():
     def __init__(self, data, categorical_feautures=None, analysis=False, outputplot=False, avoid_pca=True):
@@ -25,6 +27,7 @@ class RedDimensionality():
         self.analysis = analysis
         self.n_components = 2
         self.avoid_pca = avoid_pca
+        self.pca_mod = None
         try:
             self.index = data.drop(categorical_feautures, axis=1).index
             self.columns = data.drop(categorical_feautures, axis=1).columns
@@ -51,6 +54,8 @@ class RedDimensionality():
         pca = PCA(n_components=0.9)
         embedding = pca.fit_transform(plt_data)
 
+        self.pca_mod = pca
+
         return embedding
 
     def normalization(self):
@@ -67,8 +72,9 @@ class RedDimensionality():
 
         elif (self.analysis):
             print('Doing PCA...')
+
             embedding = self.pca()
-            if embedding.shape[1] < 4:
+            if embedding.shape[1] < 2:
                 print('PCA gave to few feautures, normalizing...')
                 embedding = self.normalization()
         else:
@@ -77,7 +83,7 @@ class RedDimensionality():
 
         if self.index is not None:
             embedding = pd.DataFrame(
-                embedding, index=self.index, columns=self.columns)
+                embedding, index=self.index)
             embedding = pd.concat([self.cat_data, embedding], axis=1)
 
         print('...done!')

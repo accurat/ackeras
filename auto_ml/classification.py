@@ -7,11 +7,12 @@ from datetime import datetime
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import confusion_matrix
 from evolutionary_search import EvolutionaryAlgorithmSearchCV
 
 
 def average_prediction(pred_tree, pred_svm):
-    return np.average(np.vstack((pred_tree, pred_svm)), axis=0)
+    return np.mean([pred_tree, pred_svm], axis=0)
 
 
 class Classification():
@@ -42,12 +43,12 @@ class Classification():
         self.default_evparams = {'scoring': "accuracy",
                                  'cv': StratifiedKFold(n_splits=4),
                                  'verbose': self.verbose,
-                                 'population_size': 20,
+                                 'population_size': 10,
                                  'gene_mutation_prob': 0.10,
                                  'gene_crossover_prob': 0.5,
                                  'tournament_size': 3,
                                  'generations_number': 2,
-                                 'n_jobs': 6
+                                 'n_jobs': 10
                                  }
 
     def ev_svm(self):
@@ -60,6 +61,7 @@ class Classification():
 
         clf = cv.best_estimator_
 
+        self.svm_called = True
         self.opt_svm = clf
 
     def ev_tree(self):
@@ -72,34 +74,51 @@ class Classification():
 
         clf = cv.best_estimator_
 
+        self.frst_called = True
         self.opt_frst = clf
 
     def ensable_prediction(self):
+
         X_insample, X_outsample = self.X_insample, self. X_outsample
-        y_insample, y_outsample = self.y_insample, self.y_outsample
+        y_insample, y_outsample = self.y_insample.values, self.y_outsample.values
+
         svm_clf = self.opt_svm
         frst_clf = self.opt_frst
+        pdb.set_trace()
 
-        if not self.svm_called:
+        if (svm_clf is not None) and (not self.svm_called):
             print('SVM not optimized, using default')
             svm_clf.fit(X_insample, y_insample)
+
         if not self.frst_called:
             print('Random Forest not opimized, using default')
             frst_clf.fit(X_insample, y_insample)
 
         joint_prob = None
-        if X_outsample and y_outsample:
-            svm_pred = svm_clf.predict_proba(y_outsample)
-            frst_pred = frst_clf.predict_proba(y_outsample)
+        if X_outsample is not None:
+            frst_pred = frst_clf.predict_proba(X_outsample)
+            svm_pred = svm_clf.predict_proba(
+                X_outsample) if svm_clf is not None else frst_pred
 
             joint_prob = average_prediction(frst_pred, svm_pred)
+
+        if y_outsample is not None:
+            score = confusion_matrix(
+                self.y_outsample, np.argmax(joint_prob, axis=1))
+            print(f'The confusion matrix is {score}')
 
         self.joint_prob = joint_prob
 
         return joint_prob
 
     def fit_predict(self):
-        self.ev_svm()
+
+        if self.X_insample.shape[0] < 20000:
+            self.ev_svm()
+        else:
+            print('The dataset is too big for SVM, using only random forest')
+            self.opt_svm = None
+
         self.ev_tree()
 
         joint_prob = self.ensable_prediction()
@@ -113,20 +132,3 @@ class Classification():
             print(
                 'Careful, no out of sample data, you can still get the classifiers with .opt_svm and .opt_frst')
             return None
-
-
-# ------------- Test data
-
-data = pd.read_csv(
-    '/Users/andreatitton/ackeras/places_processed_data.csv').set_index('order_date').sort_index()
-
-indexing = int(len(data)*.9)
-data_params = {
-    'X_insample': data[: indexing].drop('country, France', axis=1),
-    'y_insample': data[: indexing]['country, France'],
-    'X_outsample': data[indexing:].drop('country, France', axis=1),
-    'y_outsample': data[indexing:]['country, France'],
-}
-
-cl = Classification(**data_params)
-pred_data = cl.fit_predict()
