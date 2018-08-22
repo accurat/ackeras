@@ -171,6 +171,12 @@ class Pipeline():
             if (self.y is not None):
                 joint_prob = self.classification()
 
+                columns = self.acp.label_encoders[self.y].classes_ if self.y in self.acp.label_encoders.keys(
+                ) else None
+
+                prob_df = pd.DataFrame(
+                    joint_prob, index=self.data_processed[self.insample:].index, columns=columns)
+
             self.status = 'Done'
 
             data_processed = pd.DataFrame(
@@ -178,16 +184,17 @@ class Pipeline():
             cluster_data = pd.DataFrame(
                 cluster_data[0]).reset_index().T.to_dict()
             coefficients = pd.DataFrame(coefficients).reset_index().T.to_dict()
+            prob_df = pd.DataFrame(prob_df).reset_index().T.to_dict()
 
             outputs = {
                 'acp': data_processed,
                 'cluster_data': cluster_data,
                 'coefficients': coefficients,
-                'probability': joint_prob}
+                'probability': prob_df}
             self.outputs = outputs
             return self.outputs
 
         except Exception as e:
-            self.status = f'Error happening, we are giving up {e}'
+            self.status = f'An error occured, contact 118: {e}'
 
             return None

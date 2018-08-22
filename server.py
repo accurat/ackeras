@@ -79,7 +79,6 @@ class Server():
             except IndexError:
                 job = None
                 return 'This job is closed'
-
             output = job.status()
             output = jsonpify(output)
             try:
@@ -93,7 +92,6 @@ class Server():
 
             else:
                 output_data = json.loads(output.get_data().decode('utf-8'))
-
                 buff = io.BytesIO()
                 zip_archive = zipfile.ZipFile(buff, mode='w')
 

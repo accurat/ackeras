@@ -84,7 +84,6 @@ class Classification():
 
         svm_clf = self.opt_svm
         frst_clf = self.opt_frst
-        pdb.set_trace()
 
         if (svm_clf is not None) and (not self.svm_called):
             print('SVM not optimized, using default')
@@ -105,7 +104,7 @@ class Classification():
         if y_outsample is not None:
             score = confusion_matrix(
                 self.y_outsample, np.argmax(joint_prob, axis=1))
-            print(f'The confusion matrix is {score}')
+            print(f'The confusion matrix is\n{score}')
 
         self.joint_prob = joint_prob
 
@@ -123,7 +122,7 @@ class Classification():
 
         joint_prob = self.ensable_prediction()
 
-        if joint_prob:
+        if joint_prob is not None:
             print(
                 'Outputting joint_probability, you can get the classifiers with .opt_svm and .opt_frst')
             return joint_prob
