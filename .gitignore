@@ -107,4 +107,5 @@ venv.bak/
 autokeras_imp.ipynb
 .vscode
 auto_ml/images
+test_viz.py
 

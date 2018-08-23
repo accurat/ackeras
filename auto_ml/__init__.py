@@ -1,1 +1,1 @@
-from auto_ml.pipeline import Pipeline
+import auto_ml

@@ -13,7 +13,7 @@ import zipfile
 from datetime import datetime
 import uuid
 from flask import Flask, make_response, request, render_template, make_response, send_from_directory, jsonify, send_file
-from auto_ml import Pipeline
+from auto_ml.pipeline import Pipeline
 from bson.json_util import dumps
 
 

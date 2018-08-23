@@ -79,7 +79,7 @@ class Pipeline():
 
     def preprocess(self):
         print(f'Preprocessing ...')
-        params = {
+        self.acp_params = {
             'categorical_feautures': self.categorical_feautures,
             'timecolumn': self.timecolumn,
             'save': False,
@@ -89,7 +89,7 @@ class Pipeline():
         }
 
         self.acp = AccuratPreprocess(self.input_data)
-        self.data_processed = self.acp.fit_transform(**params)
+        self.data_processed = self.acp.fit_transform(**self.acp_params)
 
         if self.y is not None:
             if isinstance(self.y, list):
