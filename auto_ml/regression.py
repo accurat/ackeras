@@ -11,6 +11,10 @@ from pandas.api.types import CategoricalDtype
 
 
 class Regression():
+    '''
+    The function takes data and fits a linear regression with a Ridge regularizer. 
+    '''
+
     def __init__(self, data, y, problem=None):
         assert isinstance(data, pd.DataFrame)
         assert isinstance(y, str)

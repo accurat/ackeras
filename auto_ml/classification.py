@@ -16,6 +16,11 @@ def average_prediction(pred_tree, pred_svm):
 
 
 class Classification():
+    '''
+    The function takes feautures (X_insample) and targets (y_insample) and the (optional) corrisponding out of sample data and fits a support vector machine and a random forest.
+    One could just call the "fit_predict" that returns the joint porbability and then access the models in self.opt_svm and self.opt_frst.
+    '''
+
     def __init__(self, X_insample, y_insample, X_outsample=None, y_outsample=None, verbose=100):
         self.X_insample = X_insample
         self.X_outsample = X_outsample

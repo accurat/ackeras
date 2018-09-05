@@ -18,7 +18,8 @@ from sklearn.model_selection import train_test_split
 class Clustering():
     def __init__(self, data, categorical_feautures=None, pre_k=None):
         """
-        The class requires a pd.DataFrame and normalized data to work
+        The class requires a pd.DataFrame and normalized data to work. 
+        It simply fits the data to be clustered.
         """
         self.data = data
         self.categorical_feautures = categorical_feautures if np.issubdtype(
