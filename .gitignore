@@ -106,5 +106,6 @@ venv.bak/
 *.csv
 autokeras_imp.ipynb
 .vscode
-auto_ml/images
+ackeras/images
 test_viz.py
+Dist/

@@ -16,14 +16,14 @@ from sklearn.model_selection import train_test_split
 
 
 class Clustering():
-    def __init__(self, data, categorical_feautures=None, pre_k=None):
+    def __init__(self, data, categorical_features=None, pre_k=None):
         """
         The class requires a pd.DataFrame and normalized data to work. 
         It simply fits the data to be clustered.
         """
         self.data = data
-        self.categorical_feautures = categorical_feautures if np.issubdtype(
-            data[categorical_feautures].dtypes, np.int) else [data.columns.get_loc(c) for c in data.columns if c in categorical_feautures]
+        self.categorical_features = categorical_features if np.issubdtype(
+            data[categorical_features].dtypes, np.int) else [data.columns.get_loc(c) for c in data.columns if c in categorical_features]
         self.is_cat = False
         self.check_df()
         self.pre_k = pre_k
@@ -41,17 +41,17 @@ class Clustering():
                 print(
                     f'-- Flag --: the column {normalize_data.columns[n]} does not seem to be normalized')
 
-        if self.categorical_feautures is not None:
+        if self.categorical_features is not None:
             self.is_cat = True
 
-        elif (isinstance(check_data, pd.DataFrame) and (self.categorical_feautures is None)):
+        elif (isinstance(check_data, pd.DataFrame) and (self.categorical_features is None)):
             cat_data = check_data.select_dtypes(CategoricalDtype())
             if cat_data.shape[1] == 1:
                 self.is_cat = True
 
         else:
             print(
-                'Did not found categorical variables, specify at "categorical_feautures"')
+                'Did not found categorical variables, specify at "categorical_features"')
 
     def dbscan(self):
         cluster_data = self.data
@@ -120,9 +120,9 @@ class Clustering():
         opt_k = self.silouhette_analysis(cluster_data, prototype=True)
 
         kp = KPrototypes(n_clusters=opt_k)
-        kp.fit(cluster_data, categorical=self.categorical_feautures)
+        kp.fit(cluster_data, categorical=self.categorical_features)
         labels = kp.predict(
-            cluster_data, categorical=self.categorical_feautures)
+            cluster_data, categorical=self.categorical_features)
 
         cluster_data['labels'] = labels
         self.data_clustered = cluster_data

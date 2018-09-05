@@ -1,12 +1,10 @@
-from distutils.core import setup
+import os
+from setuptools import setup
 
 setup(
     name='ackeras',
-    packages=['ackeras'],  # this must be the same as the name above
-    install_requires=['torch==0.4.0', 'torchvision==0.2.1', 'numpy==1.14.5',
-                      'keras==2.2.2', 'scikit-learn==0.19.1', 'tensorflow', 'autokeras'],
+    version='0.0.1',
     author='Andrea Titton',
-    author_email='andreatitton96@gmail.com',
-    keywords=['automl'],  # arbitrary keywords
-    classifiers=[]
+    author_email='andrea.titton@accurat.it',
+    keywords='autoML',
 )

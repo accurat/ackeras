@@ -13,7 +13,7 @@ const checkBox = (name) => {
 
 async function handleSubmit() {
     userChoices = {
-        'categorical_feautures': checkBox('categorical'),
+        'categorical_features': checkBox('categorical'),
         'timecolumn': checkBox('datetime'),
         'extreme_drop': checkBox('drop'),
         'y': checkBox('y'),

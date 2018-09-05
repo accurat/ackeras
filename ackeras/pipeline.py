@@ -1,8 +1,8 @@
-from auto_ml.data_cleaning import AccuratPreprocess
-from auto_ml.dim_red import RedDimensionality
-from auto_ml.clustering import Clustering
-from auto_ml.regression import Regression
-from auto_ml.classification import Classification
+from ackeras.data_cleaning import AccuratPreprocess
+from ackeras.dim_red import RedDimensionality
+from ackeras.clustering import Clustering
+from ackeras.regression import Regression
+from ackeras.classification import Classification
 
 import time
 import pandas as pd
@@ -31,7 +31,7 @@ class Pipeline():
     '''
     The parameters of the class are:
     - input_data: a pd.DataFrame with the data input
-    - categorical_feautures: a list of categorical feautures
+    - categorical_features: a list of categorical feautures
     - timecolumn: the datetime columns name
     - extreme_drop: drop this column in a worst case scenario fashion, usually it can be None
     - y: the dependent variable in supervised problems
@@ -41,7 +41,7 @@ class Pipeline():
     '''
 
     def __init__(self, input_data,
-                 categorical_feautures=None,
+                 categorical_features=None,
                  timecolumn=None,
                  extreme_drop=None,
                  y=None,
@@ -49,7 +49,7 @@ class Pipeline():
                  supervised=False,
                  insample=None):
 
-        categorical_feautures = format_list(categorical_feautures)
+        categorical_features = format_list(categorical_features)
         input_data.columns = format_list(input_data.columns)
 
         if y is not None:
@@ -62,8 +62,8 @@ class Pipeline():
 
         self.insample = insample if insample is not None else int(
             len(input_data)*.9)
-        self.categorical_feautures = categorical_feautures if len(
-            categorical_feautures) != 0 else None
+        self.categorical_features = categorical_features if len(
+            categorical_features) != 0 else None
 
         self.timecolumn = format_list(timecolumn[0]) if isinstance(
             timecolumn, list) else format_string(timecolumn)
@@ -80,7 +80,7 @@ class Pipeline():
     def preprocess(self):
         print(f'Preprocessing ...')
         params = {
-            'categorical_feautures': self.categorical_feautures,
+            'categorical_features': self.categorical_features,
             'timecolumn': self.timecolumn,
             'save': False,
             'drop_rest': self.drop_rest,
@@ -106,7 +106,7 @@ class Pipeline():
         print('Clustering...')
         assert self.acp is not None
         self.cluster_class = Clustering(
-            self.data_processed, categorical_feautures=self.acp.embedded_columns)
+            self.data_processed, categorical_features=self.acp.embedded_columns)
         self.clustered_data = self.cluster_class.fit_predict()
         return self.clustered_data, self.cluster_class
 
@@ -139,11 +139,11 @@ class Pipeline():
         X_outsample, y_outsample = data[insample:].drop(
             self.y, axis=1), data[insample:][self.y]
 
-        catcols_X = self.acp.categorical_feautures.copy()
+        catcols_X = self.acp.categorical_features.copy()
         catcols_X.remove(self.y)
 
         params = {
-            'categorical_feautures': catcols_X,
+            'categorical_features': catcols_X,
             'analysis': True,
             'outputplot': False,
             'avoid_pca': False,

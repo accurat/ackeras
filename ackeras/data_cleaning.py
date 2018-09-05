@@ -17,7 +17,7 @@ class AccuratPreprocess():  # TODO add outlier detection
     def __init__(self, input_data=None, path=None):  # TODO-fix receiving data
         self.path = path
         self.raw_data = input_data
-        self.categorical_feautures = []
+        self.categorical_features = []
         self.label_encoders = {}
         self.approach = None
         self.data = None
@@ -113,16 +113,16 @@ class AccuratPreprocess():  # TODO add outlier detection
         print('Got rid of the NaN')
         return filled_data
 
-    def data_encoding(self, categorical_feautures, label_encoder=False):
-        assert isinstance(categorical_feautures, list)
+    def data_encoding(self, categorical_features, label_encoder=False):
+        assert isinstance(categorical_features, list)
         assert isinstance(self.raw_data, pd.DataFrame)
         raw_data = self.raw_data
 
         try:
-            cat_pos = [int(a) for a in categorical_feautures]
+            cat_pos = [int(a) for a in categorical_features]
             cat_columns = raw_data.columns[cat_pos]
         except ValueError:
-            cat_columns = categorical_feautures
+            cat_columns = categorical_features
 
         cat_data = raw_data[cat_columns]
 
@@ -181,23 +181,23 @@ class AccuratPreprocess():  # TODO add outlier detection
         except ValueError:
             print('Not timestamp, nothing changed')
 
-    def fit_transform(self, categorical_feautures=None, timecolumn=None, save=False, drop_rest=False, outputplot=False, extreme_drop=None):
+    def fit_transform(self, categorical_features=None, timecolumn=None, save=False, drop_rest=False, outputplot=False, extreme_drop=None):
         '''
         One should just run this function, after calling AccuratPreprocess(data), with:
-        categorical_feautures: the names of the categorical feautures
+        categorical_features: the names of the categorical feautures
         timecolumn: the name of the timestamp column
         save: ...
         drop_rest: whether to drop all the variables that have not be encoded (necessary for clustering and supervised learning)
         outputplot: slow plotting of some correlation_matrix, if you are a strong indipendent person you don't need graphs, don't do it!
         '''
-        self.categorical_feautures = categorical_feautures
+        self.categorical_features = categorical_features
 
         if self.path:
             self.get_data()
 
         self.deal_na()
-        if categorical_feautures:
-            self.data_encoding(categorical_feautures)
+        if categorical_features:
+            self.data_encoding(categorical_features)
         if timecolumn:
             self.datetime_index(timecolumn, set_index=True)
         self.data = self.raw_data

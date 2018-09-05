@@ -6,14 +6,14 @@ sns.set(context='paper', style='white')
 
 import umap
 from sklearn.decomposition import PCA
-from auto_ml.data_cleaning import AccuratPreprocess
+from ackeras.data_cleaning import AccuratPreprocess
 from sklearn.preprocessing import Normalizer
 
 import pdb
 
 
 class RedDimensionality():
-    def __init__(self, data, categorical_feautures=None, analysis=False, outputplot=False, avoid_pca=True):
+    def __init__(self, data, categorical_features=None, analysis=False, outputplot=False, avoid_pca=True):
         assert (isinstance(data, pd.DataFrame) or isinstance(data, np.array))
         self.data = data
         self.param = {
@@ -21,16 +21,16 @@ class RedDimensionality():
             'n_neighbors': int(data.shape[0] * .1),
             'n_components': 2
         }
-        self.pca_data = data.drop(categorical_feautures, axis=1)
-        self.cat_data = data[categorical_feautures]
+        self.pca_data = data.drop(categorical_features, axis=1)
+        self.cat_data = data[categorical_features]
         self.outputplot = outputplot
         self.analysis = analysis
         self.n_components = 2
         self.avoid_pca = avoid_pca
         self.pca_mod = None
         try:
-            self.index = data.drop(categorical_feautures, axis=1).index
-            self.columns = data.drop(categorical_feautures, axis=1).columns
+            self.index = data.drop(categorical_features, axis=1).index
+            self.columns = data.drop(categorical_features, axis=1).columns
         except AttributeError:
             self.index, self.columns = None, None
 

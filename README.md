@@ -34,7 +34,7 @@ The implementations are:
 The parameters of the class are:
 
 - input_data: a pd.DataFrame with the data input
-- categorical_feautures: a list of categorical feautures
+- categorical_features: a list of categorical feautures
 - timecolumn: the datetime columns name
 - extreme_drop: drop this column in a worst case scenario fashion, usually it can be None
 - y: the dependent variable in supervised problems
@@ -62,7 +62,7 @@ The usage should be tailored with the pipeline.py file as follows:
 ``` python 
 from pipeline import Pipeline
 test_params = {'path': './your_file.csv',
-               'categorical_feautures': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
+               'categorical_features': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
                'timecolumn': 'Ship Date',
                'drop_rest': True,
                'extreme_drop': 'Row ID',
