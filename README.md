@@ -3,9 +3,10 @@
 
 ## Installation
 
-The library is not pip-installable obviously but it should run with
+The library is now pip installable so just go ahead and type
+
 ```
-    $ python ./setup.py
+$ pip install ackeras
 ```
 
 **Note:** As autokeras the library is only compatible with: **Python 3.6**.
@@ -26,22 +27,15 @@ The implementations are:
 - [x] Clustering: [k-means](https://www.naftaliharris.com/blog/visualizing-k-means-clustering/), with silhoutte analysis optimization, and [DBSCAN](https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/) clustering;
 - [x] Logistic and Linear regression, with K-fold cross validation.
 - [x] [Random Forests](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/) and [Support Vector Machines](https://docs.opencv.org/2.4/doc/tutorials/ml/introduction_to_svm/introduction_to_svm.html), with genetic algorithm optimization.
+- [x] Outlier detection with Random Forests and 
 - [ ] [Neural Networks](https://playground.tensorflow.org/#activation=tanh&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.88343&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false), with Auto-Keras
 - [ ] ML visualizations with Seaborn and Lime
 
-## Parameters
+## Usage with Python
 
-The parameters of the class are:
+NB viewer coming soon
 
-- input_data: a pd.DataFrame with the data input
-- categorical_features: a list of categorical feautures
-- timecolumn: the datetime columns name
-- extreme_drop: drop this column in a worst case scenario fashion, usually it can be None
-- y: the dependent variable in supervised problems
-- drop_rest: keep it True
-- supervised: whether the problem is supervised or unsupervised
-
-## Usage
+## Usage from frontend (not ideal)
 
 You shold now be able to interact with the dataset through a simple server that is only running on my machine in the local network now. Fixing is happening anyhow so stay tuned. To test it yourself just try:
 
@@ -55,32 +49,6 @@ and head over to your localhost:5000. Upload a CSV and you should see something 
 ![test](/frontend/mock.png)
 
 Be sure to tick (at this stage) the "Drop_rest", because it ensures that the data you push in and is not understood will be excluded. Then go ahead and submit query and head over to the link provided and enjoy everything breaking down. Keep an eye on the console because we tried and log most errors.
-
-## Usage with python
-
-The usage should be tailored with the pipeline.py file as follows:
-``` python 
-from pipeline import Pipeline
-test_params = {'path': './your_file.csv',
-               'categorical_features': ['Ship Mode', 'Country', 'Segment', 'Category', 'Sub-Category'],
-               'timecolumn': 'Ship Date',
-               'drop_rest': True,
-               'extreme_drop': 'Row ID',
-               'supervised': True,
-               'reg_class': (None, 'Country')}
-
-plp = Pipeline(**test_params)
-
-```
-
-If you want you can use the classes individually as follows:
-``` python 
-from data_cleaning import AccuratPreprocess
-
-acp = AccuratPreprocess(path=path)
-data_processed = acp.fit_transform()
-
-```
 
 #### Other interesting libraries to add in the pipeline
 
