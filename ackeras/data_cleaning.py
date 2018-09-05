@@ -181,7 +181,7 @@ class AccuratPreprocess():  # TODO add outlier detection
         except ValueError:
             print('Not timestamp, nothing changed')
 
-    def fit_transform(self, categorical_features=None, timecolumn=None, save=False, drop_rest=False, outputplot=False, extreme_drop=None):
+    def fit_transform(self, categorical_features=None, timecolumn=None, save=False, drop_rest=True, outputplot=False, extreme_drop=None):
         '''
         One should just run this function, after calling AccuratPreprocess(data), with:
         categorical_features: the names of the categorical feautures
