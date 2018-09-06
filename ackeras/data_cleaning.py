@@ -57,7 +57,8 @@ class AccuratPreprocess():  # TODO add outlier detection
         assert isinstance(self.raw_data, pd.DataFrame)
         raw_data = self.raw_data
 
-        raw_data = raw_data.dropna(axis=1, thresh=thresh)
+        raw_data = raw_data.dropna(
+            axis=1, thresh=int(thresh*raw_data.shape[0]))
 
         def normal(df):
             nan_cols = df.loc[:, df.isna().any()].columns
