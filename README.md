@@ -1,5 +1,4 @@
-![ACKERAS](/frontend/ackeras.png)
-===========
+# ![ACKERAS](/aesthetics/ackeras.png)
 
 ## Installation
 
@@ -22,12 +21,13 @@ It just started so most things do not work properly or need to be fix, there are
 The idea is to be able to input a file in CSV or JSON format and, after selecting a few parameters (see below), getting your data cleaned and clustered automatically, ready to be analyzed. This can be useful in the context of preliminary analysis and to implement some outputs in visualization (e.g. a clustering in a scatterplot or the probabilities of a certain class with a decision tree etc.).
 
 The implementations are:
+
 - [x] Data cleaning: NaN filling with various methods, label encoding and one hot encoding, flagging of categorical feautures and dropping redundant feautures (almost);
 - [x] Dimensionality Reduction: [PCA](http://setosa.io/ev/principal-component-analysis/) and [UMAP](https://github.com/lmcinnes/umap)
 - [x] Clustering: [k-means](https://www.naftaliharris.com/blog/visualizing-k-means-clustering/), with silhoutte analysis optimization, and [DBSCAN](https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/) clustering;
 - [x] Logistic and Linear regression, with K-fold cross validation.
 - [x] [Random Forests](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/) and [Support Vector Machines](https://docs.opencv.org/2.4/doc/tutorials/ml/introduction_to_svm/introduction_to_svm.html), with genetic algorithm optimization.
-- [x] Outlier detection with Random Forests and 
+- [x] Outlier detection with Random Forests and
 - [ ] [Neural Networks](https://playground.tensorflow.org/#activation=tanh&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.88343&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false), with Auto-Keras
 - [ ] ML visualizations with Seaborn and Lime
 
@@ -55,4 +55,3 @@ Be sure to tick (at this stage) the "Drop_rest", because it ensures that the dat
 - [Awesome Dash](https://github.com/Acrotrend/awesome-dash), python + react.js + flask
 - [Bokeh](https://github.com/bokeh/bokeh), interactive web-plotting
 - [Dask](https://dask.pydata.org/en/latest/), multiprocessing with Pandas, Numpy and Sklearn
-
