@@ -104,9 +104,9 @@ venv.bak/
 .mypy_cache/
 
 *.csv
-autokeras_imp.ipynb
 .vscode
 ackeras/images
 test_viz.py
 Dist/
 test.py
+Docs/notebooks/kpmg_ackeras.ipynb
