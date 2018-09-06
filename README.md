@@ -1,4 +1,4 @@
-# ![ACKERAS](/aesthetics/ackeras.png)
+# ![ACKERAS](/readme/ackeras.png)
 
 ## Installation
 
@@ -46,7 +46,7 @@ $ python server.py
 
 and head over to your localhost:5000. Upload a CSV and you should see something like this:
 
-![test](/frontend/mock.png)
+![test](/readme/mock.png)
 
 Be sure to tick (at this stage) the "Drop_rest", because it ensures that the data you push in and is not understood will be excluded. Then go ahead and submit query and head over to the link provided and enjoy everything breaking down. Keep an eye on the console because we tried and log most errors.
 
