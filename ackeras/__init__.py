@@ -6,4 +6,5 @@ __all__ = [
     'outlier_detection',
     'pipeline',
     'regression',
+    'data_viz',
 ]
