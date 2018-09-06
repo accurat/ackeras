@@ -1,4 +1,4 @@
-# ![ACKERAS](/readme/ackeras.png)
+# ![ACKERAS](/readme/logo.png)
 
 ## Installation
 
@@ -33,7 +33,12 @@ The implementations are:
 
 ## Usage with Python
 
-NB viewer coming soon
+Head over to the docs to see:
+
+- [x] Basic usage [example](https://github.com/accurat/ackeras/blob/master/docs/notebooks/ackeras_basic.ipynb)
+- [] More complex analysis and use cases
+- [] Integration with autosklearn
+- [] Integration with autokeras
 
 ## Usage from frontend (not ideal)
 
