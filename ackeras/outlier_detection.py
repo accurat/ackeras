@@ -38,6 +38,11 @@ class OutlierDetection:
         if timecolumn:
             self.timeindex = data[timecolumn]
             self.data = data.drop(timecolumn, axis=1)
+        else:
+            self.timeindex = None
+            numerical_types = ['int16', 'int32', 'int64',
+                               'float16', 'float32', 'float64']
+            self.data = data.select_dtypes(include=numerical_types)
 
     def isolation_forest_detector(self, n_estimators=2000):
         X = self.data
@@ -106,7 +111,7 @@ class OutlierDetection:
                 y_column = original_data.describe().std().argmax()
                 y = original_data[y_column].tolist()
                 plt.figure(figsize=(16, 12))
-                plt.plot(x, y, c='blue')
+                plt.plot(x, y, c='blue', alpha=0.5)
                 plt.xlabel('Time')
                 plt.ylabel(y_column)
 
@@ -122,13 +127,13 @@ class OutlierDetection:
 
                 x_column = original_data.describe().std().argmax()
                 y_column = original_data.drop(
-                    x_column, axis=0).describe().std().argmax()
+                    x_column, axis=1).describe().std().argmax()
 
-                x = original_data[x].tolist()
-                y = original_data[y].tolist()
+                x = original_data[x_column].tolist()
+                y = original_data[y_column].tolist()
 
                 plt.figure(figsize=(16, 12))
-                plt.plot(x, y, c='blue')
+                plt.plot(x, y, c='blue', alpha=0.5)
 
                 plt.xlabel(x_column)
                 plt.ylabel(y_column)
@@ -145,8 +150,9 @@ class OutlierDetection:
 
 
 if __name__ == "__main__":
-    data = pd.read_csv('/Users/andreatitton/Desktop/places_processed.csv')
+    data = pd.read_csv(
+        '/Users/andreatitton/Desktop/places_processed.csv')
     detect_outliers = OutlierDetection(
-        data, contamination=0.001, timecolumn='Order Date')
+        data, contamination=0.001)
 
     data_analysed = detect_outliers.fit_predict(plot=True)
