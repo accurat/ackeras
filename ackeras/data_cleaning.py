@@ -167,7 +167,7 @@ class AccuratPreprocess():  # TODO add outlier detection
             timecolumn = str(timecolumn[0])
 
         raw_data = self.raw_data
-        sample = raw_data[timecolumn].gsample(1).values[0]
+        sample = raw_data[timecolumn].sample(1).values[0]
         if (isinstance(sample, int) or isinstance(sample, float)):
             print('Treating number as UNIX time')
 

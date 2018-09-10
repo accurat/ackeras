@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ackeras',
-    version='0.0.1',
+    version='0.1.1',
     author='Andrea Titton',
     packages=['ackeras'],
     description='Simple wrapper around Sklearn and Autokeras',
