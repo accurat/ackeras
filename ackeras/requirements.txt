@@ -7,7 +7,7 @@ numpy==1.14.5
 matplotlib==2.2.2
 sklearn_deap==0.2.2
 umap_learn==0.3.0
-Flask==0.12.3
+Flask==1.0
 seaborn==0.9.0
 evolutionary_search==0.1
 scikit_learn==0.19.2
